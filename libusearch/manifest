@@ -1,0 +1,16 @@
+: 1
+name: libusearch
+version: 2.26.2-a.0.z
+type: lib,binless
+language: c++
+project: usearch
+summary: Approximate nearest neighbors search and clustering C++ library
+license: Apache-2.0 ; Apache License 2.0.
+description-file: README.md
+package-description-file: PACKAGE-README.md
+url: https://github.com/unum-cloud/usearch
+email: info@unum.cloud
+package-url: https://github.com/build2-packaging/usearch
+package-email: packaging@build2.org ; Mailing list.
+depends: * build2 >= 0.18.0
+depends: * bpkg >= 0.18.0
