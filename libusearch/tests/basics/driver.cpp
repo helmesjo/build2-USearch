@@ -1,34 +1,25 @@
-#include <sstream>
-#include <stdexcept>
-
-#include <usearch/usearch.hpp>
+#include <usearch/index.hpp>
+#include <usearch/index_dense.hpp>
 
 #undef NDEBUG
 #include <cassert>
 
+using namespace unum::usearch;
+
 int main ()
 {
-  using namespace std;
-  using namespace usearch;
+  metric_punned_t metric (3, metric_kind_t::l2sq_k, scalar_kind_t::f32_k);
+  index_dense_t index = index_dense_t::make (metric);
 
-  // Basics.
-  //
-  {
-    ostringstream o;
-    say_hello (o, "World");
-    assert (o.str () == "Hello, World!\n");
-  }
+  float vec[3] = {0.1f, 0.3f, 0.2f};
 
-  // Empty name.
-  //
-  try
-  {
-    ostringstream o;
-    say_hello (o, "");
-    assert (false);
-  }
-  catch (const invalid_argument& e)
-  {
-    assert (e.what () == string ("empty name"));
-  }
+  assert (index.try_reserve (10));
+  assert (index.add (42, &vec[0]));
+
+  auto results = index.search (&vec[0], 5);
+  assert (results.size () == 1);
+  assert (results[0].member.key == 42);
+  assert (results[0].distance == 0);
+
+  assert (index.size () == 1);
 }
