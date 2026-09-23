@@ -1,3 +1,21 @@
 import libs = libusearch%lib{usearch}
 
 exe{driver}: {hxx ixx txx cxx}{**} $libs testscript{**}
+
+# Silence harmless warnings from upstream headers: usearch/index.hpp has
+# an unused parameter in insert_many(), and usearch_align_m expands to
+# __attribute__((aligned(64))) on a local struct, which GCC warns is
+# ignored. MSVC additionally flags the padding that alignment introduces,
+# names that hide a member or an outer local, and implicit narrowing
+# conversions. The Microsoft CRT deprecates fopen() and strerror() in
+# favor of their _s variants, for MSVC and Clang targeting it alike.
+#
+if ($cxx.target.system == 'win32-msvc')
+  obje{driver}: cxx.poptions += -D_CRT_SECURE_NO_WARNINGS
+
+if ($cxx.class == 'msvc')
+  obje{driver}: cxx.coptions += /wd4100 /wd4244 /wd4324 /wd4456 /wd4458
+elif ($cxx.id == 'gcc')
+  obje{driver}: cxx.coptions += -Wno-unused-parameter -Wno-attributes
+elif ($cxx.id == 'clang')
+  obje{driver}: cxx.coptions += -Wno-unused-parameter
