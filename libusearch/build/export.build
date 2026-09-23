@@ -1,0 +1,6 @@
+$out_root/
+{
+  include usearch/
+}
+
+export $out_root/usearch/$import.target
