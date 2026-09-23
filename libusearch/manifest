@@ -10,7 +10,7 @@ description-file: README.md
 package-description-file: PACKAGE-README.md
 url: https://github.com/unum-cloud/usearch
 email: info@unum.cloud
-package-url: https://github.com/build2-packaging/usearch
+package-url: https://github.com/build2-packaging/USearch
 package-email: packaging@build2.org ; Mailing list.
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
