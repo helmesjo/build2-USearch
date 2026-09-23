@@ -1,0 +1,1 @@
+../../upstream/include/usearch/index_plugins.hpp
